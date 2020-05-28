@@ -4,7 +4,7 @@ import numpy as np
 def _distance(index, phrases_to_keys, phrase1, phrase2):
   return index.get_distance(phrases_to_keys[phrase1], phrases_to_keys[phrase2])
 
-def _closest(index, keys_to_phrases, coord, n=10):
+def _closest(index, keys_to_phrases, coord, n=2):
   identifiers = index.get_nns_by_vector(coord, n)
   return [keys_to_phrases[i] for i in identifiers]
 

@@ -52,5 +52,3 @@ experiments.e3.cosine.run(token_vectors, corpus_entry_phrases, corpus_MeSH_phras
 experiments.e3.euclidean.run(token_vectors, corpus_entry_phrases, corpus_MeSH_phrases)
 experiments.e3.sklearn.run(token_vectors, corpus_entry_phrases, corpus_MeSH_phrases)
 
-
-# don't forget to change all the annoy closest to not be 10
