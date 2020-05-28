@@ -1,2 +1,5 @@
 _original_data/1.Train[[:space:]]Set/3.Filtered_word_vectors.xlsx filter=lfs diff=lfs merge=lfs -text
 _original_data/1.Train[[:space:]]Set/Training[[:space:]]Set.txt filter=lfs diff=lfs merge=lfs -text
+_original_data/Word2Vec[[:space:]]Demo/1.Raw[[:space:]]Input.txt filter=lfs diff=lfs merge=lfs -text
+_original_data/Word2Vec[[:space:]]Demo/Word2Vec[[:space:]]Model.trainables.syn1neg.npy filter=lfs diff=lfs merge=lfs -text
+_original_data/Word2Vec[[:space:]]Demo/Word2Vec[[:space:]]Model.wv.vectors.npy filter=lfs diff=lfs merge=lfs -text
