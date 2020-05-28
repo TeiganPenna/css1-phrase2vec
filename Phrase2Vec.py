@@ -8,10 +8,25 @@ from pathlib import Path
 import re
 from string import punctuation
 
+def _dataframe_to_dict(df):
+  # r is a tuple of row number and series
+  # we need to take the 0th element of the series (s[1].to_list()[0])
+  # and strip the last character off it (s[1].to_list()[0][:-1])
+  # and map that to rest of the series (s[1].to_list()[0][:-1]: s[1].to_list()[1:])
+  # we can avoid the douple call to to_list() without increasing complexity thanks to pythons inline for loop
+  # this is actually O(2n) even though it looks like O(n^2)
+  return {series[0][:-1]: series[1:] for series in [row[1].to_list() for row in df.iterrows()]}
+
 def get_token_vectors_from_xlsx(filename):
-  dataframe = pd.read_excel(filename, index_col=0, header=0)
-  tdataframe = dataframe.transpose() # seems the easiest way to get the information out of the dataframe. Pandas likes columns a lot
-  return tdataframe.to_dict('list')
+  # pandas can't read 'null' or 'nan' without turning them into floats which is a) annoying and b) causes collisions (float('null') == float('nan'))
+  # pandas also won't let you do conversions on the index column, which means we can't use index_col=0
+  # pandas also refuses to actually obey conversions unless you modify the value for some reason.
+  # if you run read_excel with converters={'Unnamed: 0': lambda v : str(v)} you'll see that the values remain floats
+  # if you run read_excel with converters={'Unnamed: 0': lambda v : str(v) + '_'} you'll see that the values are converted to strings
+  # dtype has no effect
+  to_string = lambda v : str(v) + '_' # we add an extra character, we'll need to remove this later
+  dataframe = pd.read_excel(filename, header=0, converters={'Unnamed: 0': to_string})
+  return _dataframe_to_dict(dataframe)
  
 def get_phrase_vectors_from_raw_phrases(word_vectors, entry_phrases, MeSH_phrases):
   # assume that the files are the same length
