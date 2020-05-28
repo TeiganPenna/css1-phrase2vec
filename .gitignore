@@ -1,0 +1,6 @@
+# exclude vim files
+*.swp
+*.swo
+
+# exclude pycache
+*.pyc
