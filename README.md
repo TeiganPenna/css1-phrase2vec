@@ -16,26 +16,26 @@ Each experiment has the following heuristics:
 Experiment results are as follows:
 ```
 Results for Experiment 1 (Cosine)
-True Precision: 10.829555413695726%
-Average Distance: 0.754352057463075
+True Precision: 10.666176168269804%
+Average Distance: 0.7543520572303769
 
 Results for Experiment 1 (Euclidean)
-True Precision: 10.773292362290771%
-Average Distance: 0.014899424478982326
+True Precision: 10.656438332449715%
+Average Distance: 0.014899424478962172
 
 Results for Experiment 1 (Sklearn)
-Average Distance: 0.4265103331852839
+Average Distance: 0.42651033318496334
 
 Results for Experiment 2 (Cosine)
-True Precision: 8.41132618504052%
+True Precision: 8.083485712430887%
 Average Distance: 0.7337878031360708
 
 Results for Experiment 2 (Euclidean)
-True Precision: 10.49846899581273%
+True Precision: 10.475747378899191%
 Average Distance: 6.491201046280378e-06
 
 Results for Experiment 2 (Sklearn)
-Average Distance: 0.47581427311018104
+Average Distance: 0.4758142731101864
 
 Results for Experiment 3 (Cosine)
 True Precision: 25.885257065032345%
