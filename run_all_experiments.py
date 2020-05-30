@@ -18,6 +18,13 @@ word_vectors = p2v.get_token_vectors_from_xlsx(Path('data/3.Filtered_word_vector
 entry_phrases = [re.sub(r"[{}]+".format(punctuation), '', line.strip('\n').lower()) for line in open(Path('data/Train_Set_Entry_Terms.txt'), 'r', encoding='UTF-8').readlines()]
 MeSH_phrases = [re.sub(r"[{}]+".format(punctuation), '', line.strip('\n').lower()) for line in open(Path('data/Train_Set_MeSH_Terms.txt'), 'r', encoding='UTF-8').readlines()]
 
+# use this to create the data for experiment 3
+#combined_phrases = entry_phrases + MeSH_phrases
+#p2v.train_phrase_model_to_xlsx(Path('data/1.Raw Input.txt'), Path('data/experiment3_vectors.xlsx'), combined_phrases)
+
+e3_vectors = p2v.get_token_vectors_from_xlsx(Path('data/experiment3_vectors.xlsx'))
+corpus_entry_phrases, corpus_MeSH_phrases = p2v.get_phrases_in_corpus(e3_vectors, entry_phrases, MeSH_phrases)
+
 phrase_vectors = p2v.get_phrase_vectors_from_raw_phrases(word_vectors, entry_phrases, MeSH_phrases)
 experiments.e1.cosine.run(phrase_vectors, entry_phrases, MeSH_phrases)
 experiments.e1.euclidean.run(phrase_vectors, entry_phrases, MeSH_phrases)
@@ -29,21 +36,7 @@ experiments.e2.cosine.run(weighted_phrase_vectors, entry_phrases, MeSH_phrases)
 experiments.e2.euclidean.run(weighted_phrase_vectors, entry_phrases, MeSH_phrases)
 experiments.e2.sklearn.run(weighted_phrase_vectors, entry_phrases, MeSH_phrases)
 
-# use this to create the data fro experiment 3
-combined_phrases = entry_phrases + MeSH_phrases
-#p2v.train_phrase_model_to_xlsx(Path('data/1.Raw Input.txt'), Path('data/experiment3_vectors.xlsx'), combined_phrases)
-
-token_vectors = p2v.get_token_vectors_from_xlsx(Path('data/experiment3_vectors.xlsx'))
-
-# this is a hack to get around the corpus not containing all the Entry/MeSH phrases
-phrase_tokens_map = {p2v.phrase_to_token(phrase): phrase for phrase in combined_phrases}
-phrase_vectors = {k: token_vectors[k] for k in phrase_tokens_map.keys() if k in token_vectors}
-phrases_that_are_in_the_corpus = [v for k, v in phrase_tokens_map.items() if k in phrase_vectors]
-entry_MeSH_map = dict(zip(entry_phrases, MeSH_phrases))
-corpus_entry_MeSH_map = [(e, m) for e, m in entry_MeSH_map.items() if e in phrases_that_are_in_the_corpus and m in phrases_that_are_in_the_corpus]
-corpus_entry_phrases, corpus_MeSH_phrases = zip(*corpus_entry_MeSH_map)
-
-experiments.e3.cosine.run(token_vectors, corpus_entry_phrases, corpus_MeSH_phrases)
-experiments.e3.euclidean.run(token_vectors, corpus_entry_phrases, corpus_MeSH_phrases)
-experiments.e3.sklearn.run(token_vectors, corpus_entry_phrases, corpus_MeSH_phrases)
+experiments.e3.cosine.run(e3_vectors, corpus_entry_phrases, corpus_MeSH_phrases)
+experiments.e3.euclidean.run(e3_vectors, corpus_entry_phrases, corpus_MeSH_phrases)
+experiments.e3.sklearn.run(e3_vectors, corpus_entry_phrases, corpus_MeSH_phrases)
 

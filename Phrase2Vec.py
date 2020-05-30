@@ -27,6 +27,16 @@ def get_token_vectors_from_xlsx(filename):
   to_string = lambda v : str(v) + '_' # we add an extra character, we'll need to remove this later
   dataframe = pd.read_excel(filename, header=0, converters={'Unnamed: 0': to_string})
   return _dataframe_to_dict(dataframe)
+
+def get_phrases_in_corpus(corpus_vectors, entry_phrases, MeSH_phrases):
+  # this is a hack to get around the corpus not containing all the Entry/MeSH phrases
+  combined_phrases = entry_phrases + MeSH_phrases
+  phrase_tokens_map = {phrase_to_token(phrase): phrase for phrase in combined_phrases}
+  phrase_vectors = {k: corpus_vectors[k] for k in phrase_tokens_map.keys() if k in corpus_vectors}
+  phrases_that_are_in_the_corpus = [v for k, v in phrase_tokens_map.items() if k in phrase_vectors]
+  entry_MeSH_map = dict(zip(entry_phrases, MeSH_phrases))
+  corpus_entry_MeSH_map = [(e, m) for e, m in entry_MeSH_map.items() if e in phrases_that_are_in_the_corpus and m in phrases_that_are_in_the_corpus]
+  return zip(*corpus_entry_MeSH_map)
  
 def get_phrase_vectors_from_raw_phrases(word_vectors, entry_phrases, MeSH_phrases):
   # assume that the files are the same length
