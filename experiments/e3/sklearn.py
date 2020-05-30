@@ -9,14 +9,14 @@ def _evaluate_cosine_similarity(token_vectors, entry_phrases, MeSH_phrases):
   entry_vectors = [token_vectors[phrase_to_token(entry_phrase)] for entry_phrase in entry_phrases]
   MeSH_vectors = [token_vectors[phrase_to_token(MeSH_phrase)] for MeSH_phrase in MeSH_phrases]
   similarity = sk.cosine_similarity(entry_vectors, MeSH_vectors)
-  print('Cosine Similarity: ')
+  print('  Cosine Similarity: ')
   print(similarity)
 
 def _evaluate_distance_average_precision(token_vectors, entry_phrases, MeSH_phrases):
   all_distances = [] # distances between all Entry and MeSH terms
   for i in range(len(entry_phrases)):
     all_distances.append(_distance(token_vectors[phrase_to_token(entry_phrases[i])], token_vectors[phrase_to_token(MeSH_phrases[i])]))
-  print('Average Distance: ' + str(np.mean(all_distances)))
+  print('  Average Distance: ' + str(np.mean(all_distances)))
 
 
 def run(token_vectors, entry_phrases, MeSH_phrases):

@@ -24,13 +24,13 @@ def _evaluate_true_precision(phrase_vectors, index, keys_to_phrases, entry_phras
     if closest_synonym == MeSH_phrases[i]:
       true_precision += 1
 
-  print('True Precision: ' + str((true_precision / total_records) * 100) + '%')
+  print('  True Precision: ' + str((true_precision / total_records) * 100) + '%')
 
 def _evaluate_distance_average_precision(index, phrases_to_keys, entry_phrases, MeSH_phrases):
   all_distances = [] # distances between all Entry and MeSH terms
   for i in range(len(entry_phrases)):
     all_distances.append(_distance(index, phrases_to_keys, entry_phrases[i], MeSH_phrases[i]))
-  print('Average Distance: ' + str(np.mean(all_distances)))
+  print('  Average Distance: ' + str(np.mean(all_distances)))
 
 
 def run(phrase_vectors, entry_phrases, MeSH_phrases):
