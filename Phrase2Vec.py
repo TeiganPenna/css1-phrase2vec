@@ -52,12 +52,9 @@ def get_phrase_vectors_from_raw_phrases(word_vectors, entry_phrases, MeSH_phrase
   return phrase_vectors
 
 def get_word_weights():
-  dataframe = pd.read_csv(Path('data/word_weights.csv'), index_col=0)
-  d = dataframe.to_dict('split')
-  d = dict(zip(d['index'], d['data']))
-  # oh no null STILL isn't in the dataframe
-  d['null'] = float('9.84991624674156e-06')
-  return d
+  to_string = lambda v : str(v) + '_' 
+  dataframe = pd.read_csv(Path('data/word_weights.csv'), header=0, converters={'Unnamed: 0': to_string})
+  return _dataframe_to_dict(dataframe)
 
 def get_weighted_phrase_vectors_from_raw_phrases(word_vectors, word_weights, entry_phrases, MeSH_phrases):
   # assume that the files are the same length
